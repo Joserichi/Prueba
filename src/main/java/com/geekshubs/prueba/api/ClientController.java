@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.geekshubs.prueba.db.cliente.ClienteFilter;
 import com.geekshubs.prueba.db.cliente.ClienteRepository;
 import com.geekshubs.prueba.model.Cliente;
 
@@ -26,7 +27,7 @@ public class ClientController {
 	
 	@Autowired
 	ClienteRepository repository;
-		
+	
 	@GetMapping("")
 	public ResponseEntity<List<Cliente>> list() {
 		return new ResponseEntity<>(repository.findAll(), HttpStatus.OK);
@@ -61,5 +62,12 @@ public class ClientController {
 			repository.deleteById(id);
 			return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
 	}
+	
+	@PostMapping("/search")
+	public ResponseEntity<List<Cliente>> search(@RequestBody ClienteFilter filter) {
+		return new ResponseEntity<>(repository.findAll(filter.toSpecification()), HttpStatus.OK);
+		
+	}
+	
 
 }
