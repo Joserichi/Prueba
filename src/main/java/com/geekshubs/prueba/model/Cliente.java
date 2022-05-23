@@ -67,10 +67,6 @@ public class Cliente {
 		this.email = email;
 	}
 	
-	/**
-	 * 
-	 * @param client
-	 */
 	public void set(Cliente other) {
 		this.nombre = other.nombre;
 		this.apellidos = other.apellidos;

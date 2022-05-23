@@ -4,6 +4,7 @@ import java.util.Date;
 
 import org.springframework.data.jpa.domain.Specification;
 
+import com.geekshubs.prueba.db.SpecificationUtils;
 import com.geekshubs.prueba.model.Cliente;
 
 public class ClienteFilter {
@@ -66,33 +67,24 @@ public class ClienteFilter {
 	public Specification<Cliente> toSpecification() {
 		Specification<Cliente> result = null;
 		if (nombre != null) {
-			result = and(result, (cliente, cq, cb) -> cb.like(cliente.get("nombre"), nombre));
+			result = SpecificationUtils.and(result, (cliente, cq, cb) -> cb.like(cliente.get("nombre"), nombre));
 		}
 		if (apellidos != null) {
-			result = and(result, (cliente, cq, cb) -> cb.like(cliente.get("apellidos"), apellidos));
+			result = SpecificationUtils.and(result, (cliente, cq, cb) -> cb.like(cliente.get("apellidos"), apellidos));
 		}
 		if (telefono != null) {
-			result = and(result, (cliente, cq, cb) -> cb.like(cliente.get("telefono"), telefono));
+			result = SpecificationUtils.and(result, (cliente, cq, cb) -> cb.like(cliente.get("telefono"), telefono));
 		}
 		if (fecha_nacimiento_from != null) {
-			result = and(result, (cliente, cq, cb) -> cb.greaterThanOrEqualTo(cliente.<Date>get("fecha_nacimiento"), fecha_nacimiento_from));
+			result = SpecificationUtils.and(result, (cliente, cq, cb) -> cb.greaterThanOrEqualTo(cliente.<Date>get("fecha_nacimiento"), fecha_nacimiento_from));
 		}
 		if (fecha_nacimiento_to != null) {
-			result = and(result, (cliente, cq, cb) -> cb.lessThanOrEqualTo(cliente.<Date>get("fecha_nacimiento"), fecha_nacimiento_to));
+			result = SpecificationUtils.and(result, (cliente, cq, cb) -> cb.lessThanOrEqualTo(cliente.<Date>get("fecha_nacimiento"), fecha_nacimiento_to));
 		}
 		if (email != null) {
-			result = and(result, (cliente, cq, cb) -> cb.like(cliente.get("email"), email));
+			result = SpecificationUtils.and(result, (cliente, cq, cb) -> cb.like(cliente.get("email"), email));
 		}
 		return result;
-	}
-	
-	//XXX Clase de utils?
-	private Specification<Cliente> and(Specification<Cliente> one, Specification<Cliente> other) {
-		if (one != null) {
-			return one.and(other);
-		} else {
-			return other;
-		}
 	}
 
 }
