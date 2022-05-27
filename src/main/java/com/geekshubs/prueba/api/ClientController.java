@@ -34,20 +34,20 @@ public class ClientController {
 	}
 	
 	@PostMapping("")
-	public ResponseEntity<Cliente> save(@RequestBody Cliente client) {
-		if (client != null) {
-			return new ResponseEntity<>(repository.save(client), HttpStatus.OK);
+	public ResponseEntity<Cliente> save(@RequestBody Cliente cliente) {
+		if (cliente != null) {
+			return new ResponseEntity<>(repository.save(cliente), HttpStatus.OK);
 		} else {
 			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
 		}
 	}
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<Cliente> update(@PathVariable("id") Integer id, @RequestBody Cliente client) {
+	public ResponseEntity<Cliente> update(@PathVariable("id") Integer id, @RequestBody Cliente cliente) {
 		try {
-			if (client != null) {
+			if (cliente != null) {
 				Cliente db = repository.getById(id);
-				db.set(client);
+				db.set(cliente);
 				return new ResponseEntity<>(repository.save(db), HttpStatus.OK);
 			} else {
 				return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);

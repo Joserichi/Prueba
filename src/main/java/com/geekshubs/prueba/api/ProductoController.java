@@ -16,37 +16,41 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.geekshubs.prueba.db.categoria.CategoriaFilter;
-import com.geekshubs.prueba.db.categoria.CategoriaRepository;
-import com.geekshubs.prueba.model.Categoria;
+import com.geekshubs.prueba.db.producto.ProductoFilter;
+import com.geekshubs.prueba.db.producto.ProductoRepository;
+import com.geekshubs.prueba.model.Producto;
 
 @RestController
-@RequestMapping("/venta/categoria")
-public class CategoriaController {
+@RequestMapping("/venta/producto")
+public class ProductoController {
 
 	@Autowired
-	CategoriaRepository repository;
+	ProductoRepository repository;
 
 	@GetMapping("")
-	public ResponseEntity<List<Categoria>> list() {
+	public ResponseEntity<List<Producto>> list() {
 		return new ResponseEntity<>(repository.findAll(), HttpStatus.OK);
 	}
 
 	@PostMapping("")
-	public ResponseEntity<Categoria> save(@RequestBody Categoria categoria) {
-		if (categoria != null) {
-			return new ResponseEntity<>(repository.save(categoria), HttpStatus.OK);
+	public ResponseEntity<Producto> save(@RequestBody Producto producto) {
+		if (producto != null) {
+			producto = repository.save(producto);
+			//Hibernate no los actualiza, correcto, pero la respuesta los muestra como se enviaron, null para no confundir al usuario de la api
+			producto.getCategoria().setNombre(null);
+			producto.getCategoria().setDescripcion(null);
+			return new ResponseEntity<>(producto, HttpStatus.OK);
 		} else {
 			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
 		}
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<Categoria> update(@PathVariable("id") Integer id, @RequestBody Categoria categoria) {
+	public ResponseEntity<Producto> update(@PathVariable("id") Integer id, @RequestBody Producto producto) {
 		try {
-			if (categoria != null) {
-				Categoria db = repository.getById(id);
-				db.set(categoria);
+			if (producto != null) {
+				Producto db = repository.getById(id);
+				db.set(producto);
 				return new ResponseEntity<>(repository.save(db), HttpStatus.OK);
 			} else {
 				return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
@@ -57,13 +61,13 @@ public class CategoriaController {
 	}
 
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Categoria> delete(@PathVariable("id") Integer id) {
+	public ResponseEntity<Producto> delete(@PathVariable("id") Integer id) {
 		repository.deleteById(id);
 		return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
 	}
 
 	@PostMapping("/search")
-	public ResponseEntity<List<Categoria>> search(@RequestBody CategoriaFilter filter) {
+	public ResponseEntity<List<Producto>> search(@RequestBody ProductoFilter filter) {
 		return new ResponseEntity<>(repository.findAll(filter.toSpecification()), HttpStatus.OK);
 
 	}
