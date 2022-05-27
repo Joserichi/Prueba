@@ -86,7 +86,12 @@ public class ProductoFilter {
 		if (categoria.getCategoria_id() != null) {
 			result = SpecificationUtils.and(result, (producto, cq, cb) -> cb.equal(producto.get("categoria"), categoria.getCategoria_id()));
 		}
-		//TODO Joins
+		if (categoria.getNombre() != null) {
+			result = SpecificationUtils.and(result, (producto, cq, cb) -> cb.like(producto.get("categoria").get("nombre"), categoria.getNombre()));
+		}
+		if (categoria.getDescripcion() != null) {
+			result = SpecificationUtils.and(result, (producto, cq, cb) -> cb.like(producto.get("categoria").get("descripcion"), categoria.getDescripcion()));
+		}
 		return result;
 	}
 
