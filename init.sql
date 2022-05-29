@@ -1,0 +1,45 @@
+CREATE DATABASE IF NOT EXISTS VENTA;
+USE VENTA;
+
+CREATE TABLE IF NOT EXISTS CLIENTE  (
+	cliente_id INT PRIMARY KEY AUTO_INCREMENT,
+	nombre VARCHAR(20),
+	apellidos VARCHAR(50),
+	telefono VARCHAR(15),
+	fecha_nacimiento DATE,
+	email VARCHAR(20)
+);
+
+CREATE TABLE IF NOT EXISTS CATEGORIA (
+	categoria_id INT PRIMARY KEY AUTO_INCREMENT,
+	nombre VARCHAR(20),
+	descripcion VARCHAR(100)
+);
+
+CREATE TABLE IF NOT EXISTS PRODUCTO (
+	producto_id INT PRIMARY KEY AUTO_INCREMENT,
+	categoria_id INT,
+	nombre VARCHAR(20),
+	precio FLOAT,
+	cantidad INT,
+	FOREIGN KEY (categoria_id) REFERENCES CATEGORIA(categoria_id) ON DELETE SET NULL
+);
+
+CREATE TABLE IF NOT EXISTS COMPRA (
+	compra_id INT PRIMARY KEY AUTO_INCREMENT,
+	cliente_id INT NOT NULL,
+	fecha DATE,
+	metodo_pago VARCHAR(20),
+	estado VARCHAR(20),
+	FOREIGN KEY (cliente_id) REFERENCES CLIENTE(cliente_id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS COMPRA_PRODUCTO (
+	producto_id INT,
+	compra_id INT NOT NULL,
+	cantidad INT,
+	total FLOAT,
+	FOREIGN KEY (producto_id) REFERENCES PRODUCTO(producto_id) ON DELETE RESTRICT,
+	FOREIGN KEY (compra_id) REFERENCES COMPRA(compra_id) ON DELETE CASCADE,
+	PRIMARY KEY (producto_id, compra_id)
+);
