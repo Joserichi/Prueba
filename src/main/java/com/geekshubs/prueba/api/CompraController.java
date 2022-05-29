@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.geekshubs.prueba.db.compra.CompraFilter;
 import com.geekshubs.prueba.db.compra.CompraProductoRepository;
 import com.geekshubs.prueba.db.compra.CompraRepository;
 import com.geekshubs.prueba.model.Compra;
@@ -124,10 +125,9 @@ public class CompraController {
 		return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
 	}
 
-//	@PostMapping("/search")
-//	public ResponseEntity<List<Compra>> search(@RequestBody CompraFilter filter) {
-//		return new ResponseEntity<>(repository.findAll(filter.toSpecification()), HttpStatus.OK);
-//
-//	}
+	@PostMapping("/search")
+	public ResponseEntity<List<Compra>> search(@RequestBody CompraFilter filter) {
+		return new ResponseEntity<>(repository.findAll(filter.toSpecification()), HttpStatus.OK);
+	}
 
 }

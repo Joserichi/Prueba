@@ -3,23 +3,33 @@ package com.geekshubs.prueba.db.producto;
 import org.springframework.data.jpa.domain.Specification;
 
 import com.geekshubs.prueba.db.SpecificationUtils;
+import com.geekshubs.prueba.db.categoria.CategoriaFilter;
 import com.geekshubs.prueba.model.Categoria;
 import com.geekshubs.prueba.model.Producto;
 
 public class ProductoFilter {
 
-	private Categoria categoria = new Categoria();
+	private Integer categoria_id;
+	private CategoriaFilter categoria = new CategoriaFilter();
 	private String nombre;
 	private Float precio_from;
 	private Float precio_to;
 	private Integer cantidad_from;
 	private Integer cantidad_to;
 	
-	public Categoria getCategoria() {
+	public Integer getCategoria_id() {
+		return categoria_id;
+	}
+
+	public void setCategoria_id(Integer categoria_id) {
+		this.categoria_id = categoria_id;
+	}
+
+	public CategoriaFilter getCategoria() {
 		return categoria;
 	}
 
-	public void setCategoria(Categoria categoria) {
+	public void setCategoria(CategoriaFilter categoria) {
 		this.categoria = categoria;
 	}
 
@@ -83,8 +93,8 @@ public class ProductoFilter {
 			result = SpecificationUtils.and(result,
 					(producto, cq, cb) -> cb.le(producto.get("cantidad"), cantidad_to));
 		}
-		if (categoria.getCategoria_id() != null) {
-			result = SpecificationUtils.and(result, (producto, cq, cb) -> cb.equal(producto.get("categoria"), categoria.getCategoria_id()));
+		if (categoria_id != null) {
+			result = SpecificationUtils.and(result, (producto, cq, cb) -> cb.equal(producto.get("categoria"), categoria_id));
 		}
 		if (categoria.getNombre() != null) {
 			result = SpecificationUtils.and(result, (producto, cq, cb) -> cb.like(producto.get("categoria").get("nombre"), categoria.getNombre()));
