@@ -23,7 +23,7 @@ import com.geekshubs.prueba.model.Cliente;
 
 @RestController
 @RequestMapping("/venta/cliente")
-public class ClientController {
+public class ClienteController {
 	
 	@Autowired
 	ClienteRepository repository;
