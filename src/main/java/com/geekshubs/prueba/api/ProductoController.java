@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.geekshubs.prueba.db.producto.ProductoFilter;
 import com.geekshubs.prueba.db.producto.ProductoRepository;
+import com.geekshubs.prueba.model.Categoria;
 import com.geekshubs.prueba.model.Producto;
 
 @RestController
@@ -36,9 +37,6 @@ public class ProductoController {
 	public ResponseEntity<Producto> save(@RequestBody Producto producto) {
 		if (producto != null) {
 			producto = repository.save(producto);
-			//Hibernate no los actualiza, correcto, pero la respuesta los muestra como se enviaron, null para no confundir al usuario de la api
-			producto.getCategoria().setNombre(null);
-			producto.getCategoria().setDescripcion(null);
 			return new ResponseEntity<>(producto, HttpStatus.OK);
 		} else {
 			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
